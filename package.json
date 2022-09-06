@@ -1,0 +1,26 @@
+{
+  "name": "@songtradr/semantic-release-internal-npm",
+  "description": "Semantically release package to internal songtradr npm",
+  "version": "0.0.0-development",
+  "private": true,
+  "main": "action.yml",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/songtradr/semantic-release-internal-npm.git"
+  },
+  "keywords": [
+    "release",
+    "npm",
+    "semantic release",
+    "publish"
+  ],
+  "author": "Songtradr",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/songtradr/semantic-release-internal-npm/issues"
+  },
+  "homepage": "https://github.com/songtradr/semantic-release-internal-npm#readme"
+}

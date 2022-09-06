@@ -1,0 +1,53 @@
+name: "Release"
+
+description: "Semantically release package to internal songtradr npm"
+
+inputs:
+  directory:
+    description: "where to run the release"
+    required: false
+    default: "."
+  add_config:
+    description: "weather to set default release config"
+    required: false
+    default: true
+  pre_release:
+    description: "weather to publish pre-releases from PRs"
+    required: false
+    default: true
+  token:
+    description: "A Github PAT"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: 🗺 Prepare release
+      shell: bash
+      if: inputs.add_config
+      run: |
+        cd ${{ inputs.directory }}
+        cp ${{ github.action_path }}release.config.template.js ./release.config.js
+
+    - name: 🚀 Release
+      if: github.event_name == 'push'
+      shell: bash
+      run: |
+        cd ${{ inputs.directory }}
+        npx semantic-release@19
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        NPM_TOKEN: ${{ inputs.token }}
+        NODE_AUTH_TOKEN: ${{ inputs.token }}
+
+    - name: 🛫 Pre-Release
+      if: inputs.pre_release && github.event_name == 'pull_request'
+      shell: bash
+      run: |
+        cd ${{ inputs.directory }}
+        yarn add decorate-gh-pr -D &&
+        npx semantish-prerelease@4 --release-pr
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        NPM_TOKEN: ${{ inputs.token }}
+        NODE_AUTH_TOKEN: ${{ inputs.token }}
