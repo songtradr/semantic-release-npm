@@ -18,7 +18,7 @@
     "publish"
   ],
   "author": "Songtradr",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/songtradr/semantic-release-internal-npm/issues"
   },

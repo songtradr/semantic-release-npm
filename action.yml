@@ -8,11 +8,11 @@ inputs:
     required: false
     default: "."
   add_config:
-    description: "weather to set default release config"
+    description: "wether to set default release config"
     required: false
     default: true
   pre_release:
-    description: "weather to publish pre-releases from PRs"
+    description: "wether to publish pre-releases from PRs"
     required: false
     default: true
   token:
