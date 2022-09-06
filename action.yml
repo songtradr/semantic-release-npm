@@ -15,50 +15,35 @@ inputs:
     description: "wether to publish pre-releases from PRs"
     required: false
     default: true
-  token:
+  gh_token:
     description: "A Github PAT"
-    required: true
+    required: false
+    default: ${{ github.token }}
+  npm_token:
+    description: "token with which to publish to npm"
+    required: false
+    default: ${{ github.token }}
 
 runs:
   using: "composite"
   steps:
-    - name: 👀 Inspect GitHub context
-      shell: bash
+    - shell: bash
       env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - name: 👀 Inspect input
-      shell: bash
-      env:
-        INPUTS: ${{ toJson(inputs) }}
-      run: echo "$INPUTS"
-
-    - name: 🗺 Prepare release
-      shell: bash
-      if: ${{ (inputs.add_config == true) }}
+        GITHUB_TOKEN: ${{ inputs.gh_token }}
+        NPM_TOKEN: ${{ inputs.npm_token }}
+        NODE_AUTH_TOKEN: ${{ inputs.npm_token }}
       run: |
         cd ${{ inputs.directory }}
-        cp ${{ github.action_path }}release.config.template.js ./release.config.js
 
-    - name: 🚀 Release
-      if: ${{ (github.event_name == 'push') }}
-      shell: bash
-      run: |
-        cd ${{ inputs.directory }}
-        npx semantic-release@19
-      env:
-        GITHUB_TOKEN: ${{ inputs.token }}
-        NPM_TOKEN: ${{ inputs.token }}
-        NODE_AUTH_TOKEN: ${{ inputs.token }}
+        if [ "${{inputs.add_config}}" == "true" ]; then
+          cp ${{ github.action_path }}release.config.template.js ./release.config.js
+        fi
 
-    - name: 🛫 Pre-Release
-      if: ${{ (inputs.pre_release == true) && (github.event_name == 'pull_request') }}
-      shell: bash
-      run: |
-        cd ${{ inputs.directory }}
-        yarn add decorate-gh-pr -D &&
-        npx semantish-prerelease@4 --release-pr
-      env:
-        GITHUB_TOKEN: ${{ inputs.token }}
-        NPM_TOKEN: ${{ inputs.token }}
-        NODE_AUTH_TOKEN: ${{ inputs.token }}
+        if [ "${{github.event_name}}" == "push" ]; then
+          npx semantic-release@19
+        fi
+
+        if [ "${{github.event_name}}" == "pull_request" && "${{inputs.pre_release}}" == "true"  ]; then
+          npm i decorate-gh-pr -D &&
+          npx semantish-prerelease@4 --release-pr
+        fi
