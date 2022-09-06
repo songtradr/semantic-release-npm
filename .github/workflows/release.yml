@@ -44,4 +44,3 @@ jobs:
         with:
           pre_release: false
           add_config: false
-          token: ${{ secrets.GITHUB_TOKEN }}
