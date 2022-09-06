@@ -24,7 +24,7 @@ runs:
   steps:
     - name: 🗺 Prepare release
       shell: bash
-      if: inputs.add_config
+      if: inputs.add_config == true
       run: |
         cd ${{ inputs.directory }}
         cp ${{ github.action_path }}release.config.template.js ./release.config.js
@@ -41,7 +41,7 @@ runs:
         NODE_AUTH_TOKEN: ${{ inputs.token }}
 
     - name: 🛫 Pre-Release
-      if: inputs.pre_release && github.event_name == 'pull_request'
+      if: inputs.pre_release == true && github.event_name == 'pull_request'
       shell: bash
       run: |
         cd ${{ inputs.directory }}
