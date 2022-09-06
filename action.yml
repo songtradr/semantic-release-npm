@@ -1,6 +1,6 @@
 name: "Release"
 
-description: "Semantically release package to internal songtradr npm"
+description: "Semantically release package"
 
 inputs:
   directory:
@@ -24,13 +24,13 @@ runs:
   steps:
     - name: 🗺 Prepare release
       shell: bash
-      if: inputs.add_config == true
+      if: ${{ (inputs.add_config == true) }}
       run: |
         cd ${{ inputs.directory }}
         cp ${{ github.action_path }}release.config.template.js ./release.config.js
 
     - name: 🚀 Release
-      if: github.event_name == 'push'
+      if: ${{ (github.event_name == 'push') }}
       shell: bash
       run: |
         cd ${{ inputs.directory }}
@@ -41,7 +41,7 @@ runs:
         NODE_AUTH_TOKEN: ${{ inputs.token }}
 
     - name: 🛫 Pre-Release
-      if: inputs.pre_release == true && github.event_name == 'pull_request'
+      if: ${{ (inputs.pre_release == true) && (github.event_name == 'pull_request') }}
       shell: bash
       run: |
         cd ${{ inputs.directory }}
