@@ -35,15 +35,15 @@ runs:
       run: |
         cd ${{ inputs.directory }}
 
-        if [ "${{inputs.add_config}}" == "true" ]; then
+        if [ "${{inputs.add_config}}" = true ]; then
           cp ${{ github.action_path }}release.config.template.js ./release.config.js
         fi
 
-        if [ "${{github.event_name}}" == "push" ]; then
+        if [ "${{github.event_name}}" = "push" ]; then
           npx semantic-release@19
         fi
 
-        if [ "${{github.event_name}}" == "pull_request" && "${{inputs.pre_release}}" == "true"  ]; then
+        if [ "${{github.event_name}}" = "pull_request" ] && [ "${{inputs.pre_release}}" = true ]; then
           npm i decorate-gh-pr -D &&
           npx semantish-prerelease@4 --release-pr
         fi
