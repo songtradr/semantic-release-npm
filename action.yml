@@ -22,6 +22,17 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: 👀 Inspect GitHub context
+      shell: bash
+      env:
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+      run: echo "$GITHUB_CONTEXT"
+    - name: 👀 Inspect input
+      shell: bash
+      env:
+        INPUTS: ${{ toJson(inputs) }}
+      run: echo "$INPUTS"
+
     - name: 🗺 Prepare release
       shell: bash
       if: ${{ (inputs.add_config == true) }}
