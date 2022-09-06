@@ -8,6 +8,30 @@ Automatically publish new versions and preview versions of pull requests to npm 
 
 ```yml
 # .github/workflows/release.yml
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+      - next
+      - next-major
+      - beta
+      - alpha
+      - "*.x"
+  pull_request:
+
+permissions:
+  actions: write
+  contents: write
+  issues: write
+  pull-requests: write
+  packages: write
+
+defaults:
+  run:
+    shell: bash
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -28,6 +52,10 @@ jobs:
           scope: "@songtradr"
 
       # test, build, prepare here
+
+      ############################################################
+      # All above is opinionated, all below is about this action #
+      ############################################################
 
       - name: 🚀 Publish
         uses: songtradr/semantic-release-npm@v1
