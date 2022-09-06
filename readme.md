@@ -1,4 +1,4 @@
-# songtradr/semantic-release-internal-npm action
+# songtradr/semantic-release-npm action
 
 > Semantically (pre-)release package
 
@@ -23,14 +23,14 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          ### Optionally configure your private npm here (remove next two lines when using public npm)
+          ### Optionally configure your private npm here
           registry-url: "https://npm.pkg.github.com"
           scope: "@songtradr"
 
       # test, build, prepare here
 
       - name: 🚀 Publish
-        uses: songtradr/semantic-release-internal-npm@v1
+        uses: songtradr/semantic-release-npm@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
