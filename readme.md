@@ -7,7 +7,7 @@ Automatically publish new versions and preview versions of pull requests to npm 
 ## Use
 
 ```yml
-# .github/workflows/release.yml
+### .github/workflows/release.yml
 name: Release
 
 on:
@@ -51,7 +51,7 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
           scope: "@songtradr"
 
-      # test, build, prepare here
+      ### test, build, prepare here
 
       ############################################################
       # All above is opinionated, all below is about this action #
@@ -59,9 +59,12 @@ jobs:
 
       - name: 🚀 Publish
         uses: songtradr/semantic-release-npm@v1
+        ### All options are optional
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
+          ### npm token to authenticate against the registry (Default: ${{ github.token }})
+          npm_token: ${{ github.token }}
+          ### GitHub PAT to create the release with (Default: ${{ github.token }})
+          gh_token: ${{ github.token }}
           ### The directory in which the release should be performed (Default: .)
           directory: .
           ### Wether to publish preview releases for pull requests (Default: true)
