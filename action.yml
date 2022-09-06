@@ -36,7 +36,7 @@ runs:
         cd ${{ inputs.directory }}
 
         if [ "${{inputs.add_config}}" = true ]; then
-          cp ${{ github.action_path }}release.config.template.js ./release.config.js
+          cp ${{ github.action_path }}/release.config.template.js ./release.config.js
         fi
 
         if [ "${{github.event_name}}" = "push" ]; then
