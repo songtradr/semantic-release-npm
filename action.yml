@@ -45,5 +45,5 @@ runs:
 
         if [ "${{github.event_name}}" = "pull_request" ] && [ "${{inputs.pre_release}}" = true ]; then
           npm i decorate-gh-pr --no-save &&
-          npx semantish-prerelease@4 --release-pr
+          npx semantish-prerelease@4 --release-pr --branches dev
         fi
