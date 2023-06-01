@@ -11,6 +11,10 @@ inputs:
     description: "wether to set default release config"
     required: false
     default: true
+  branches:
+    description: "custom branches configuration (see https://semantic-release.gitbook.io/semantic-release/usage/configuration#branches)"
+    required: false
+    default: false
   pre_release:
     description: "wether to publish pre-releases from PRs"
     required: false
@@ -39,11 +43,19 @@ runs:
           cp ${{ github.action_path }}/release.config.template.js ./release.config.cjs
         fi
 
+        BRANCHES_FLAG=""
+        BRANCHES_VALUE=""
+
+        if [ "${{inputs.branches}}" != false ]; then
+          BRANCHES_FLAG="--branches"
+          BRANCHES_VALUE="${{inputs.branches}}"
+        fi
+
         if [ "${{github.event_name}}" = "push" ]; then
-          npx semantic-release@19
+          npx semantic-release@19 $BRANCHES_FLAG $BRANCHES_VALUE
         fi
 
         if [ "${{github.event_name}}" = "pull_request" ] && [ "${{inputs.pre_release}}" = true ]; then
           npm i decorate-gh-pr --no-save &&
-          npx semantish-prerelease@4 --release-pr
+          npx semantish-prerelease@4 --release-pr $BRANCHES_FLAG $BRANCHES_VALUE
         fi
