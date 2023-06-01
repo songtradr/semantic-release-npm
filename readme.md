@@ -67,6 +67,9 @@ jobs:
           gh_token: ${{ github.token }}
           ### The directory in which the release should be performed (Default: .)
           directory: .
+          ### Custom branches configuration (see https://semantic-release.gitbook.io/semantic-release/usage/configuration#branches)
+          ### (Default: false) - false uses configuration from release.config.js
+          branches: main, next
           ### Wether to publish preview releases for pull requests (Default: true)
           pre_release: true
           ### Wether to apply common configuration for semantic release (Default: true)
